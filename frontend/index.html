@@ -1,4 +1,4 @@
-
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -591,31 +591,31 @@ tbody tr:hover { background:#12332766; }
 
   <nav class="nav">
     <button class="active" data-page="dashboard">
-      <span class="icon">▦</span>
+      <span class="icon">â–¦</span>
       <span class="nav-text">Dashboard</span>
     </button>
     <button data-page="students">
-      <span class="icon">♙</span>
+      <span class="icon">â™™</span>
       <span class="nav-text">Students</span>
     </button>
     <button data-page="predictions">
-      <span class="icon">◈</span>
+      <span class="icon">â—ˆ</span>
       <span class="nav-text">AI Predictions</span>
     </button>
     <button data-page="analytics">
-      <span class="icon">◫</span>
+      <span class="icon">â—«</span>
       <span class="nav-text">Analytics</span>
     </button>
     <button data-page="simulator">
-      <span class="icon">⌁</span>
+      <span class="icon">âŒ</span>
       <span class="nav-text">Attendance Simulator</span>
     </button>
     <button data-page="alerts">
-      <span class="icon">♧</span>
+      <span class="icon">â™§</span>
       <span class="nav-text">Risk Alerts</span>
     </button>
     <button data-page="about">
-      <span class="icon">⚙</span>
+      <span class="icon">âš™</span>
       <span class="nav-text">System Information</span>
     </button>
   </nav>
@@ -623,7 +623,7 @@ tbody tr:hover { background:#12332766; }
   <div class="connection">
     <span class="dot"></span>
     <span id="connection">Connecting...</span>
-    <p>Oracle DB · Flask · Random Forest</p>
+    <p>Oracle DB Â· Flask Â· Random Forest</p>
   </div>
 </aside>
 
@@ -636,7 +636,7 @@ tbody tr:hover { background:#12332766; }
     </div>
 
     <div class="admin-actions">
-      <span class="admin" id="adminLabel">◉ Administrator</span>
+      <span class="admin" id="adminLabel">â—‰ Administrator</span>
       <button class="btn danger" id="logoutButton">Logout</button>
     </div>
   </div>
@@ -657,23 +657,23 @@ tbody tr:hover { background:#12332766; }
     <div class="cards">
       <div class="card">
         <small>Total Students</small>
-        <div class="number" id="total">—</div>
+        <div class="number" id="total">â€”</div>
       </div>
       <div class="card">
         <small>High Risk</small>
-        <div class="number red" id="high">—</div>
+        <div class="number red" id="high">â€”</div>
       </div>
       <div class="card">
         <small>Medium Risk</small>
-        <div class="number yellow" id="med">—</div>
+        <div class="number yellow" id="med">â€”</div>
       </div>
       <div class="card">
         <small>Low Risk</small>
-        <div class="number green" id="low">—</div>
+        <div class="number green" id="low">â€”</div>
       </div>
       <div class="card">
         <small>Average Attendance</small>
-        <div class="number" id="avg">—</div>
+        <div class="number" id="avg">â€”</div>
       </div>
     </div>
 
@@ -750,7 +750,7 @@ tbody tr:hover { background:#12332766; }
           </button>
 
           <button class="btn" onclick="load()">
-            ↻ Refresh
+            â†» Refresh
           </button>
         </div>
       </div>
@@ -938,7 +938,7 @@ tbody tr:hover { background:#12332766; }
   </section>
 
   <div class="footer">
-    ATTENDANCE AI · Student Risk Intelligence System
+    ATTENDANCE AI Â· Student Risk Intelligence System
   </div>
 </main>
 </div>
@@ -948,7 +948,7 @@ tbody tr:hover { background:#12332766; }
   <div class="modalbox">
     <div class="modalhead">
       <h2>Add Student</h2>
-      <button class="btn" onclick="closeAdd()">✕</button>
+      <button class="btn" onclick="closeAdd()">âœ•</button>
     </div>
 
     <p id="formError" class="error"></p>
@@ -1028,7 +1028,7 @@ tbody tr:hover { background:#12332766; }
   <div class="modalbox">
     <div class="modalhead">
       <h2 id="historyTitle">Prediction History</h2>
-      <button class="btn" onclick="closeHistory()">✕</button>
+      <button class="btn" onclick="closeHistory()">âœ•</button>
     </div>
     <div id="historyContent"></div>
   </div>
@@ -1109,7 +1109,7 @@ async function login(username,password) {
   }
 
   adminToken = token;
-  $("adminLabel").textContent = "◉ " + profile.username;
+  $("adminLabel").textContent = "â—‰ " + profile.username;
   $("authScreen").hidden = true;
   $("appLayout").hidden = false;
 
@@ -1288,7 +1288,7 @@ async function load() {
   } catch(error) {
     if (!adminToken || adminToken !== token) return;
 
-    $("connection").textContent = "Backend unavailable";
+    $("connection").textContent = "Backend error: " + error.message;
     $("lastUpdated").textContent =
       "Connection error: " + error.message;
 
@@ -1392,8 +1392,8 @@ function renderAlerts() {
       <div>
         <strong>${escapeHTML(s.student_name)}</strong>
         <small>
-          ID: ${escapeHTML(s.student_id)} ·
-          ${escapeHTML(s.department)} ·
+          ID: ${escapeHTML(s.student_id)} Â·
+          ${escapeHTML(s.department)} Â·
           Attendance: ${num(s.attendance).toFixed(1)}%
         </small>
       </div>
@@ -1463,7 +1463,7 @@ function renderAnalytics() {
         students.reduce((sum,s) => sum + num(s[key]),0) /
         students.length
       ).toFixed(1)
-    : "—";
+    : "â€”";
 
   $("insights").innerHTML = `
     <div class="notice">
@@ -1595,7 +1595,7 @@ function template() {
 
 async function historyFor(id) {
   $("historyTitle").textContent =
-    "Prediction History — Student " + id;
+    "Prediction History â€” Student " + id;
 
   $("historyContent").textContent = "Loading...";
   $("historyModal").classList.add("show");
@@ -1772,3 +1772,4 @@ showLogin();
 </script>
 </body>
 </html>
+
