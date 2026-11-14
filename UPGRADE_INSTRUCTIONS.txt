@@ -1,0 +1,19 @@
+ADVANCED UPDATE - IMPORTANT
+
+1. BACK UP your current Attendance_Risk_Prediction folder.
+2. Extract this ZIP to a new folder first.
+3. Do NOT delete your existing Oracle Docker volume/database.
+4. Start Docker and Oracle container as usual.
+5. Run database/02_advanced_features.sql ONCE in FREEPDB1 as SYSTEM:
+   docker exec -it oracle-free sqlplus system/OracleDB2026@FREEPDB1
+   @database/02_advanced_features.sql
+   (or paste/run the file from SQL*Plus)
+6. Install/update Python packages:
+   pip install -r requirements.txt
+7. Start backend:
+   cd backend
+   python app.py
+8. Open frontend/index.html with VS Code Live Server.
+9. The dashboard now supports Add Student, CSV Import, Delete, Search/Filter, and prediction history.
+10. sample_students.csv contains 5 additional test students (104-108). Import them from the dashboard if you want to test bulk operation.
+11. Do NOT run ml/train_model_advanced.py unless you want to retrain/replace the existing model. The current model is retained for safety.

@@ -1,0 +1,1774 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Attendance AI | Admin Control Center</title>
+
+<style>
+:root {
+  --bg:#03120f;
+  --sidebar:#061b15;
+  --panel:#09251d;
+  --panel2:#0c3025;
+  --border:#1b5944;
+  --accent:#17e5b0;
+  --text:#effff9;
+  --muted:#95b9aa;
+  --red:#ff7081;
+  --yellow:#ffcd75;
+}
+
+* { box-sizing:border-box; }
+
+body {
+  margin:0;
+  font-family:"Segoe UI",Arial,sans-serif;
+  background:
+    radial-gradient(ellipse at 75% 0%,#104332,transparent 45%),
+    linear-gradient(135deg,#03120f,#061c15 60%,#03110e);
+  color:var(--text);
+  min-height:100vh;
+}
+
+button,input,select { font:inherit; }
+button { cursor:pointer; }
+button:disabled { opacity:.55;cursor:wait; }
+
+[hidden] { display:none!important; }
+
+/* LOGIN */
+
+.auth-screen {
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  background:
+    radial-gradient(circle at 50% 20%,#14533d,transparent 50%),
+    linear-gradient(135deg,#03120f,#061c15 60%,#03110e);
+}
+
+.auth-card {
+  width:min(440px,100%);
+  padding:38px 34px;
+  border:1px solid #287b5d;
+  border-radius:22px;
+  background:linear-gradient(145deg,#0c3025,#061b16);
+  box-shadow:0 30px 90px #0008;
+}
+
+.auth-logo {
+  width:65px;
+  height:65px;
+  display:grid;
+  place-items:center;
+  margin:0 auto 22px;
+  border-radius:17px;
+  background:linear-gradient(135deg,#20f5bc,#078a68);
+  color:#02251b;
+  font-size:32px;
+  font-weight:900;
+  box-shadow:0 0 35px #12e5a344;
+}
+
+.auth-card h1 {
+  text-align:center;
+  font-size:27px;
+  margin:0 0 10px;
+}
+
+.auth-subtitle {
+  text-align:center;
+  color:var(--muted);
+  line-height:1.8;
+  font-size:13px;
+  margin-bottom:28px;
+}
+
+.auth-field {
+  display:grid;
+  gap:9px;
+  margin-bottom:19px;
+}
+
+.auth-field label {
+  font-size:12px;
+  color:#b6dfcd;
+}
+
+.auth-field input {
+  width:100%;
+  padding:14px;
+  border:1px solid #28664d;
+  border-radius:11px;
+  outline:none;
+  background:#061b15;
+  color:white;
+}
+
+.auth-field input:focus { border-color:var(--accent); }
+
+.auth-submit {
+  width:100%;
+  padding:15px;
+  margin-top:7px;
+  border:1px solid #20e8ad;
+  border-radius:11px;
+  background:linear-gradient(135deg,#17d6a1,#07865f);
+  color:#00291e;
+  font-weight:800;
+}
+
+.auth-error {
+  color:#ff9ca9;
+  text-align:center;
+  font-size:12px;
+  min-height:22px;
+  margin-top:16px;
+}
+
+.auth-footer {
+  color:#689581;
+  text-align:center;
+  font-size:11px;
+  margin-top:22px;
+}
+
+/* DASHBOARD LAYOUT */
+
+.layout { display:flex;min-height:100vh; }
+
+.sidebar {
+  width:250px;
+  flex-shrink:0;
+  background:linear-gradient(180deg,#071f18,#03120e);
+  border-right:1px solid var(--border);
+  padding:24px 15px;
+  position:sticky;
+  top:0;
+  height:100vh;
+}
+
+.brand {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:5px 8px 25px;
+  border-bottom:1px solid var(--border);
+}
+
+.logo {
+  width:44px;
+  height:44px;
+  display:grid;
+  place-items:center;
+  border-radius:13px;
+  background:linear-gradient(135deg,#20f5bc,#078a68);
+  color:#02251b;
+  font-size:24px;
+  font-weight:900;
+}
+
+.brand strong { font-size:16px; }
+.brand small {
+  display:block;
+  color:var(--accent);
+  font-size:9px;
+  letter-spacing:1.4px;
+  margin-top:5px;
+}
+
+.nav-title {
+  color:#6a9e89;
+  font-size:10px;
+  letter-spacing:2px;
+  margin:26px 12px 12px;
+}
+
+.nav button {
+  width:100%;
+  background:transparent;
+  color:#a6c8b9;
+  border:1px solid transparent;
+  border-radius:11px;
+  padding:13px 14px;
+  text-align:left;
+  margin:3px 0;
+}
+
+.nav button:hover,.nav button.active {
+  background:#0d4031;
+  color:white;
+  border-color:#197257;
+}
+
+.nav button.active { box-shadow:inset 3px 0 var(--accent); }
+.nav .icon { display:inline-block;width:28px;font-size:18px; }
+
+.connection {
+  margin-top:30px;
+  padding:15px 10px;
+  border-top:1px solid var(--border);
+  color:var(--muted);
+  font-size:12px;
+}
+
+.dot {
+  display:inline-block;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 10px var(--accent);
+  margin-right:8px;
+}
+
+.main { flex:1;min-width:0;padding:28px 35px 55px; }
+
+.topbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.eyebrow {
+  color:var(--accent);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:2px;
+}
+
+.topbar h1 { margin:7px 0 0;font-size:27px; }
+
+.admin-actions {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.admin {
+  border:1px solid var(--border);
+  border-radius:30px;
+  padding:11px 17px;
+  background:#0b2b22;
+  color:#c8f9e7;
+  font-size:12px;
+}
+
+.hero {
+  padding:30px;
+  border-radius:20px;
+  border:1px solid #28765c;
+  background:
+    radial-gradient(circle at 90% 50%,#126346,transparent 45%),
+    linear-gradient(110deg,#0e3a2b,#08241d);
+  box-shadow:0 15px 40px #0003;
+  margin-bottom:20px;
+}
+
+.hero h2 { font-size:27px;margin:10px 0; }
+.hero p { color:#b0d9c8;line-height:1.7;max-width:680px; }
+
+.cards {
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:14px;
+  margin-bottom:20px;
+}
+
+.card,.panel {
+  background:linear-gradient(145deg,#0c2e24,#061b16);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 12px 30px #0002;
+}
+
+.card { min-height:125px; }
+.card small {
+  color:var(--muted);
+  text-transform:uppercase;
+  font-size:11px;
+}
+
+.number { font-size:33px;font-weight:800;margin-top:15px; }
+
+.red { color:var(--red); }
+.yellow { color:var(--yellow); }
+.green { color:var(--accent); }
+.muted { color:var(--muted); }
+
+.grid {
+  display:grid;
+  grid-template-columns:1.1fr 1fr;
+  gap:16px;
+  margin-bottom:20px;
+}
+
+.panel h3 { margin-top:0; }
+.hint { color:var(--muted);font-size:12px;line-height:1.7; }
+
+.risk-row {
+  display:grid;
+  grid-template-columns:75px 1fr 60px;
+  align-items:center;
+  gap:12px;
+  margin:20px 0;
+  font-size:12px;
+}
+
+.track {
+  height:11px;
+  border-radius:20px;
+  background:#123b2e;
+  overflow:hidden;
+}
+
+.fill { width:0;height:100%;border-radius:20px;transition:width .5s; }
+.fill.low { background:#21dfa9; }
+.fill.medium { background:#ffca70; }
+.fill.high { background:#ff687c; }
+
+.toolbar,.section-title {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-bottom:17px;
+}
+
+.actions { display:flex;flex-wrap:wrap;gap:9px; }
+
+.btn,.file {
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  gap:7px;
+  padding:10px 14px;
+  background:#0b3025;
+  color:#bfffe8;
+  border:1px solid #267b5d;
+  border-radius:10px;
+  font-weight:600;
+  text-decoration:none;
+}
+
+.btn:hover,.file:hover { background:#15513d; }
+
+.btn.primary {
+  background:linear-gradient(135deg,#17d6a1,#07865f);
+  border-color:#20e8ad;
+  color:#00291e;
+}
+
+.btn.danger {
+  color:#ff9ca9;
+  border-color:#853d4c;
+  background:#331b22;
+}
+
+.btn.small { padding:7px 10px;font-size:11px; }
+
+.input {
+  background:#061b15;
+  color:white;
+  border:1px solid #28664d;
+  border-radius:10px;
+  padding:11px 13px;
+  outline:none;
+  max-width:100%;
+}
+
+.input:focus { border-color:var(--accent); }
+.search { width:270px; }
+.tablebox { overflow-x:auto; }
+
+table { width:100%;border-collapse:collapse;min-width:850px; }
+
+th {
+  text-align:left;
+  color:#87af9e;
+  font-size:10px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  padding:14px 12px;
+  border-bottom:1px solid #27503e;
+}
+
+td {
+  padding:14px 12px;
+  font-size:12px;
+  border-bottom:1px solid #1b4032;
+}
+
+tbody tr:hover { background:#12332766; }
+
+.badge {
+  display:inline-block;
+  padding:6px 11px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:800;
+}
+
+.badge.LOW { background:#0e4a37;color:#79f8c5; }
+.badge.MEDIUM { background:#4b391c;color:#ffd58d; }
+.badge.HIGH { background:#54222d;color:#ff9ba8; }
+
+.section { display:none; }
+.section.active { display:block; }
+
+.alert {
+  padding:14px;
+  background:#112f25;
+  border:1px solid #285741;
+  border-radius:11px;
+  margin-bottom:10px;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.alert small {
+  display:block;
+  color:var(--muted);
+  margin-top:5px;
+}
+
+.formgrid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.field { display:grid;gap:7px; }
+.field label { color:#a6cdbb;font-size:11px; }
+.field input { width:100%; }
+.wide { grid-column:1/-1; }
+
+.modal {
+  position:fixed;
+  inset:0;
+  z-index:20;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  background:#000c;
+}
+
+.modal.show { display:flex; }
+
+.modalbox {
+  width:min(720px,100%);
+  max-height:90vh;
+  overflow:auto;
+  padding:25px;
+  border-radius:18px;
+  background:#08241b;
+  border:1px solid #318468;
+  box-shadow:0 30px 100px #000a;
+}
+
+.modalhead {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.error { color:#ff9da8;margin:10px 0; }
+
+.notice,.sim-result {
+  padding:17px;
+  border:1px solid #286049;
+  border-radius:12px;
+  background:#103126;
+  color:#b7ddcc;
+  line-height:1.7;
+}
+
+.sim-result { margin-top:18px;white-space:pre-line; }
+
+.footer {
+  margin-top:35px;
+  text-align:center;
+  color:#689581;
+  font-size:11px;
+}
+
+@media(max-width:1200px) {
+  .cards { grid-template-columns:repeat(3,1fr); }
+  .grid { grid-template-columns:1fr; }
+}
+
+@media(max-width:850px) {
+  .sidebar { width:75px;padding:20px 8px; }
+  .brand strong,.brand small,.nav-title,.nav-text,.connection {
+    display:none;
+  }
+  .nav button { text-align:center; }
+  .nav .icon { width:auto; }
+  .main { padding:20px; }
+  .cards { grid-template-columns:repeat(2,1fr); }
+}
+
+@media(max-width:520px) {
+  .sidebar { width:55px;padding:12px 4px; }
+  .main { padding:15px 10px; }
+  .hero { padding:20px; }
+  .hero h2 { font-size:21px; }
+  .topbar h1 { font-size:20px; }
+  .admin { display:none; }
+  .card { padding:13px; }
+  .number { font-size:27px; }
+  .formgrid { grid-template-columns:1fr; }
+  .wide { grid-column:auto; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ADMIN LOGIN -->
+<div class="auth-screen" id="authScreen">
+  <div class="auth-card">
+    <div class="auth-logo">A</div>
+    <h1>Admin Login</h1>
+    <p class="auth-subtitle">
+      ATTENDANCE AI<br>
+      Secure Student Risk Intelligence System
+    </p>
+
+    <form id="loginForm">
+      <div class="auth-field">
+        <label for="loginUsername">Admin Username</label>
+        <input id="loginUsername" type="text"
+               value="admin" autocomplete="username" required>
+      </div>
+
+      <div class="auth-field">
+        <label for="loginPassword">Password</label>
+        <input id="loginPassword" type="password"
+               placeholder="Enter admin password"
+               autocomplete="current-password" required>
+      </div>
+
+      <button class="auth-submit" id="loginButton" type="submit">
+        Secure Login
+      </button>
+      <div class="auth-error" id="loginError" role="alert"></div>
+    </form>
+
+    <div class="auth-footer">
+      Authorized Administrator Access Only
+    </div>
+  </div>
+</div>
+
+<!-- MAIN DASHBOARD -->
+<div class="layout" id="appLayout" hidden>
+
+<aside class="sidebar">
+  <div class="brand">
+    <div class="logo">A</div>
+    <div>
+      <strong>ATTENDANCE AI</strong>
+      <small>RISK INTELLIGENCE</small>
+    </div>
+  </div>
+
+  <div class="nav-title">ADMIN WORKSPACE</div>
+
+  <nav class="nav">
+    <button class="active" data-page="dashboard">
+      <span class="icon">▦</span>
+      <span class="nav-text">Dashboard</span>
+    </button>
+    <button data-page="students">
+      <span class="icon">♙</span>
+      <span class="nav-text">Students</span>
+    </button>
+    <button data-page="predictions">
+      <span class="icon">◈</span>
+      <span class="nav-text">AI Predictions</span>
+    </button>
+    <button data-page="analytics">
+      <span class="icon">◫</span>
+      <span class="nav-text">Analytics</span>
+    </button>
+    <button data-page="simulator">
+      <span class="icon">⌁</span>
+      <span class="nav-text">Attendance Simulator</span>
+    </button>
+    <button data-page="alerts">
+      <span class="icon">♧</span>
+      <span class="nav-text">Risk Alerts</span>
+    </button>
+    <button data-page="about">
+      <span class="icon">⚙</span>
+      <span class="nav-text">System Information</span>
+    </button>
+  </nav>
+
+  <div class="connection">
+    <span class="dot"></span>
+    <span id="connection">Connecting...</span>
+    <p>Oracle DB · Flask · Random Forest</p>
+  </div>
+</aside>
+
+<main class="main">
+
+  <div class="topbar">
+    <div>
+      <div class="eyebrow">ADMIN CONTROL CENTER</div>
+      <h1 id="pageTitle">Dashboard Overview</h1>
+    </div>
+
+    <div class="admin-actions">
+      <span class="admin" id="adminLabel">◉ Administrator</span>
+      <button class="btn danger" id="logoutButton">Logout</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <section id="dashboard" class="section active">
+    <div class="hero">
+      <div class="eyebrow">AI-POWERED STUDENT INTELLIGENCE</div>
+      <h2>Welcome to Attendance AI</h2>
+      <p>
+        Monitor student attendance, identify academic risk,
+        and support data-driven decisions using Oracle DBMS
+        and machine learning.
+      </p>
+      <p id="lastUpdated" class="muted">Loading live data...</p>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <small>Total Students</small>
+        <div class="number" id="total">—</div>
+      </div>
+      <div class="card">
+        <small>High Risk</small>
+        <div class="number red" id="high">—</div>
+      </div>
+      <div class="card">
+        <small>Medium Risk</small>
+        <div class="number yellow" id="med">—</div>
+      </div>
+      <div class="card">
+        <small>Low Risk</small>
+        <div class="number green" id="low">—</div>
+      </div>
+      <div class="card">
+        <small>Average Attendance</small>
+        <div class="number" id="avg">—</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="panel">
+        <h3>AI Risk Distribution</h3>
+        <p class="hint">Live prediction categories from Oracle.</p>
+
+        <div class="risk-row">
+          LOW
+          <div class="track"><div id="bl" class="fill low"></div></div>
+          <b id="pl">0%</b>
+        </div>
+
+        <div class="risk-row">
+          MEDIUM
+          <div class="track"><div id="bm" class="fill medium"></div></div>
+          <b id="pm">0%</b>
+        </div>
+
+        <div class="risk-row">
+          HIGH
+          <div class="track"><div id="bh" class="fill high"></div></div>
+          <b id="ph">0%</b>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Priority Risk Alerts</h3>
+        <p class="hint">Students currently requiring attention.</p>
+        <div id="priorityAlerts"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="section-title">
+        <h3>Recent Student Records</h3>
+        <button class="btn" onclick="showPage('students')">
+          View All Students
+        </button>
+      </div>
+      <div class="tablebox">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th><th>Student</th><th>Department</th>
+              <th>Attendance</th><th>Risk</th>
+            </tr>
+          </thead>
+          <tbody id="recentBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- STUDENTS -->
+  <section id="students" class="section">
+    <div class="panel">
+      <div class="section-title">
+        <h3>Student Management</h3>
+        <div class="actions">
+          <button class="btn primary" onclick="openAdd()">
+            + Add Student
+          </button>
+
+          <label class="file">
+            Import CSV
+            <input type="file" id="csv" accept=".csv" hidden
+                   onchange="importCSV(this.files[0])">
+          </label>
+
+          <button class="btn" onclick="template()">
+            CSV Template
+          </button>
+
+          <button class="btn" onclick="load()">
+            ↻ Refresh
+          </button>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <input class="input search" id="q"
+               placeholder="Search student, ID or department"
+               oninput="render()">
+
+        <select class="input" id="f" onchange="render()">
+          <option>ALL</option>
+          <option>HIGH</option>
+          <option>MEDIUM</option>
+          <option>LOW</option>
+        </select>
+
+        <span class="muted" id="resultCount"></span>
+      </div>
+
+      <div class="tablebox">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th><th>Student</th><th>Department</th>
+              <th>Attendance</th><th>Internal</th>
+              <th>Assignment</th><th>Risk</th>
+              <th>Confidence</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="studentBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI PREDICTIONS -->
+  <section id="predictions" class="section">
+    <div class="panel">
+      <div class="section-title">
+        <h3>AI Risk Prediction Engine</h3>
+        <button class="btn primary" id="recalcBtn"
+                onclick="recalculate()">
+          Recalculate All Predictions
+        </button>
+      </div>
+
+      <p class="hint">
+        Random Forest classification using attendance, internal marks,
+        assignment performance, and previous-performance input.
+      </p>
+
+      <p id="recalcStatus" class="muted"></p>
+
+      <div class="tablebox">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th><th>Student</th><th>Attendance</th>
+              <th>Internal</th><th>Assignment</th>
+              <th>Prediction</th><th>Confidence</th><th>History</th>
+            </tr>
+          </thead>
+          <tbody id="predictionBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANALYTICS -->
+  <section id="analytics" class="section">
+    <div class="grid">
+      <div class="panel">
+        <h3>Department-wise Average Attendance</h3>
+        <p class="hint">Calculated from current student records.</p>
+        <div id="departmentBars"></div>
+      </div>
+
+      <div class="panel">
+        <h3>Risk Category Breakdown</h3>
+        <div id="analyticsRisk"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Academic Performance Insights</h3>
+      <div id="insights" class="grid"></div>
+    </div>
+  </section>
+
+  <!-- SIMULATOR -->
+  <section id="simulator" class="section">
+    <div class="panel">
+      <h3>Attendance Improvement Simulator</h3>
+      <p class="hint">
+        Calculate how many consecutive future classes a student must
+        attend to reach a target attendance percentage.
+      </p>
+
+      <div class="formgrid">
+        <div class="field wide">
+          <label>Select Student (Optional)</label>
+          <select class="input" id="simStudent"
+                  onchange="fillSimulator()">
+            <option value="">Enter values manually</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Total Classes Held</label>
+          <input class="input" type="number"
+                 id="simTotal" min="1" value="100">
+        </div>
+
+        <div class="field">
+          <label>Classes Attended</label>
+          <input class="input" type="number"
+                 id="simAttended" min="0" value="65">
+        </div>
+
+        <div class="field">
+          <label>Target Attendance (%)</label>
+          <input class="input" type="number"
+                 id="simTarget" min="1" max="100" value="75">
+        </div>
+
+        <div class="field">
+          <label>&nbsp;</label>
+          <button class="btn primary" onclick="simulate()">
+            Calculate Improvement
+          </button>
+        </div>
+      </div>
+
+      <div class="sim-result" id="simResult">
+        Enter your values and click Calculate Improvement.
+      </div>
+    </div>
+  </section>
+
+  <!-- ALERTS -->
+  <section id="alerts" class="section">
+    <div class="panel">
+      <h3>Smart Risk Monitoring</h3>
+      <p class="hint">
+        Students with HIGH or MEDIUM predictions are listed below.
+        These are current risk indicators, not automatic notifications.
+      </p>
+      <div id="allAlerts"></div>
+    </div>
+  </section>
+
+  <!-- SYSTEM INFORMATION -->
+  <section id="about" class="section">
+    <div class="grid">
+      <div class="panel">
+        <h3>Technology Stack</h3>
+        <p>Backend: Python Flask</p>
+        <p>Database: Oracle Free</p>
+        <p>Machine Learning: Random Forest</p>
+        <p>ML Library: Scikit-learn</p>
+        <p>Frontend: HTML, CSS, JavaScript</p>
+        <p>Containerization: Docker</p>
+      </div>
+
+      <div class="panel">
+        <h3>Prediction Categories</h3>
+        <p><span class="badge LOW">LOW</span> Lower predicted risk</p>
+        <p><span class="badge MEDIUM">MEDIUM</span> Moderate predicted risk</p>
+        <p><span class="badge HIGH">HIGH</span> Higher predicted risk</p>
+        <p class="hint">
+          Predictions come from a demonstration ML model and
+          are not validated academic outcomes.
+        </p>
+      </div>
+    </div>
+
+    <div class="notice">
+      <strong>Admin Access</strong>
+      <p>
+        This dashboard requires Admin authentication.
+        Protected API requests use an expiring Bearer token.
+        Faculty and Admin use the same Admin account.
+      </p>
+    </div>
+  </section>
+
+  <div class="footer">
+    ATTENDANCE AI · Student Risk Intelligence System
+  </div>
+</main>
+</div>
+
+<!-- ADD STUDENT MODAL -->
+<div class="modal" id="addModal">
+  <div class="modalbox">
+    <div class="modalhead">
+      <h2>Add Student</h2>
+      <button class="btn" onclick="closeAdd()">✕</button>
+    </div>
+
+    <p id="formError" class="error"></p>
+
+    <form id="studentForm" class="formgrid">
+      <div class="field">
+        <label>Student ID</label>
+        <input class="input" name="student_id"
+               type="number" min="1" required>
+      </div>
+
+      <div class="field">
+        <label>Student Name</label>
+        <input class="input" name="student_name" required>
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input class="input" name="email" type="email">
+      </div>
+
+      <div class="field">
+        <label>Department</label>
+        <input class="input" name="department"
+               value="CSE" required>
+      </div>
+
+      <div class="field">
+        <label>Semester</label>
+        <input class="input" name="semester"
+               type="number" min="1" value="3" required>
+      </div>
+
+      <div class="field">
+        <label>Total Classes</label>
+        <input class="input" name="total_classes"
+               type="number" min="1" value="100" required>
+      </div>
+
+      <div class="field">
+        <label>Classes Attended</label>
+        <input class="input" name="classes_attended"
+               type="number" min="0" value="75" required>
+      </div>
+
+      <div class="field">
+        <label>Internal Marks</label>
+        <input class="input" name="internal_marks"
+               type="number" min="0" max="100" required>
+      </div>
+
+      <div class="field">
+        <label>Assignment Percentage</label>
+        <input class="input" name="assignment_percent"
+               type="number" min="0" max="100" required>
+      </div>
+
+      <div class="field">
+        <label>Previous Performance</label>
+        <input class="input" name="previous_performance"
+               type="number" min="0" max="100" required>
+      </div>
+
+      <div class="wide">
+        <button type="button" class="btn"
+                onclick="closeAdd()">Cancel</button>
+        <button type="submit" class="btn primary">
+          Add Student & Predict
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- HISTORY MODAL -->
+<div class="modal" id="historyModal">
+  <div class="modalbox">
+    <div class="modalhead">
+      <h2 id="historyTitle">Prediction History</h2>
+      <button class="btn" onclick="closeHistory()">✕</button>
+    </div>
+    <div id="historyContent"></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+const API = "http://127.0.0.1:5000";
+const $ = id => document.getElementById(id);
+
+let adminToken = null;
+let students = [];
+let summary = {};
+
+const pages = {
+  dashboard:"Dashboard Overview",
+  students:"Student Management",
+  predictions:"AI Risk Predictions",
+  analytics:"Analytics Center",
+  simulator:"Attendance Simulator",
+  alerts:"Smart Risk Alerts",
+  about:"System Information"
+};
+
+/* AUTHENTICATION */
+
+function showLogin(message = "") {
+  adminToken = null;
+  students = [];
+  summary = {};
+
+  $("appLayout").hidden = true;
+  $("authScreen").hidden = false;
+  $("loginPassword").value = "";
+  $("loginError").textContent = message;
+
+  document.querySelectorAll(".modal").forEach(modal => {
+    modal.classList.remove("show");
+  });
+}
+
+function logout() {
+  showLogin("You have logged out.");
+}
+
+async function login(username,password) {
+  const response = await fetch(API + "/auth/login",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({username,password})
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.error || "Login failed.");
+  }
+
+  if (!result.token) {
+    throw new Error("Backend did not return an authentication token.");
+  }
+
+  const token = result.token;
+
+  const check = await fetch(API + "/auth/me",{
+    headers:{Authorization:"Bearer " + token}
+  });
+
+  if (!check.ok) {
+    throw new Error("Unable to verify Admin session.");
+  }
+
+  const profile = await check.json();
+
+  if (profile.role !== "admin" || !profile.authenticated) {
+    throw new Error("Administrator access denied.");
+  }
+
+  adminToken = token;
+  $("adminLabel").textContent = "◉ " + profile.username;
+  $("authScreen").hidden = true;
+  $("appLayout").hidden = false;
+
+  showPage("dashboard");
+  await load();
+}
+
+$("loginForm").addEventListener("submit",async event => {
+  event.preventDefault();
+
+  const button = $("loginButton");
+  const username = $("loginUsername").value.trim();
+  const password = $("loginPassword").value;
+
+  $("loginError").textContent = "";
+  button.disabled = true;
+  button.textContent = "Authenticating...";
+
+  try {
+    await login(username,password);
+  } catch(error) {
+    showLogin(error.message);
+  } finally {
+    button.disabled = false;
+    button.textContent = "Secure Login";
+  }
+});
+
+$("logoutButton").addEventListener("click",logout);
+
+/* API */
+
+async function api(path,options = {}) {
+  if (!adminToken) {
+    throw new Error("Admin login required.");
+  }
+
+  const token = adminToken;
+  const headers = new Headers(options.headers || {});
+  headers.set("Authorization","Bearer " + token);
+
+  let response;
+
+  try {
+    response = await fetch(API + path,{
+      ...options,
+      headers
+    });
+  } catch(error) {
+    throw new Error("Cannot connect to Flask backend.");
+  }
+
+  let result;
+
+  try {
+    result = await response.json();
+  } catch {
+    throw new Error("Invalid response from backend.");
+  }
+
+  if (response.status === 401 || response.status === 403) {
+    if (adminToken === token) {
+      showLogin(result.error || "Session expired. Log in again.");
+    }
+    throw new Error("Authentication required.");
+  }
+
+  if (!response.ok) {
+    throw new Error(result.error || `HTTP ${response.status}`);
+  }
+
+  return result;
+}
+
+/* HELPERS */
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(
+    /[&<>"']/g,
+    c => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[c])
+  );
+}
+
+function num(value) {
+  return Number(value) || 0;
+}
+
+function badge(level) {
+  const risk = String(level || "UNKNOWN").toUpperCase();
+  const allowed = ["LOW","MEDIUM","HIGH"];
+  const css = allowed.includes(risk) ? risk : "";
+  return `<span class="badge ${css}">${escapeHTML(risk)}</span>`;
+}
+
+function showPage(page) {
+  if (!adminToken || !pages[page]) return;
+
+  document.querySelectorAll(".section").forEach(el => {
+    el.classList.toggle("active",el.id === page);
+  });
+
+  document.querySelectorAll(".nav button").forEach(el => {
+    el.classList.toggle("active",el.dataset.page === page);
+  });
+
+  $("pageTitle").textContent = pages[page];
+
+  if (page === "simulator") updateSimulatorOptions();
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+document.querySelectorAll(".nav button").forEach(button => {
+  button.addEventListener("click",() => {
+    showPage(button.dataset.page);
+  });
+});
+
+/* LOAD DASHBOARD */
+
+async function load() {
+  if (!adminToken) return;
+
+  const token = adminToken;
+
+  try {
+    const [studentData,summaryData] = await Promise.all([
+      api("/predictions"),
+      api("/predictions/summary")
+    ]);
+
+    if (adminToken !== token) return;
+
+    if (!Array.isArray(studentData)) {
+      throw new Error("Invalid student data received.");
+    }
+
+    students = studentData;
+    summary = summaryData;
+
+    $("connection").textContent = "Backend connected";
+    $("lastUpdated").textContent =
+      "Live data updated at " + new Date().toLocaleTimeString();
+
+    $("total").textContent =
+      summary.total_students ?? students.length;
+    $("high").textContent = summary.high_risk ?? 0;
+    $("med").textContent = summary.medium_risk ?? 0;
+    $("low").textContent = summary.low_risk ?? 0;
+    $("avg").textContent =
+      num(summary.average_attendance).toFixed(1) + "%";
+
+    const total = num(summary.total_students) || 1;
+
+    [
+      ["l",summary.low_risk],
+      ["m",summary.medium_risk],
+      ["h",summary.high_risk]
+    ].forEach(([key,count]) => {
+      const percent = (num(count) / total * 100).toFixed(1);
+      $("b" + key).style.width = percent + "%";
+      $("p" + key).textContent = percent + "%";
+    });
+
+    render();
+    renderAlerts();
+    renderAnalytics();
+    updateSimulatorOptions();
+
+  } catch(error) {
+    if (!adminToken || adminToken !== token) return;
+
+    $("connection").textContent = "Backend unavailable";
+    $("lastUpdated").textContent =
+      "Connection error: " + error.message;
+
+    console.error(error);
+  }
+}
+
+/* STUDENT TABLES */
+
+function render() {
+  const query = $("q").value.trim().toLowerCase();
+  const filter = $("f").value;
+
+  const filtered = students.filter(s => {
+    const matchesRisk =
+      filter === "ALL" || s.risk_level === filter;
+
+    const matchesSearch = [
+      s.student_id,s.student_name,s.department
+    ].some(v =>
+      String(v ?? "").toLowerCase().includes(query)
+    );
+
+    return matchesRisk && matchesSearch;
+  });
+
+  $("resultCount").textContent =
+    filtered.length + " student(s)";
+
+  $("studentBody").innerHTML = filtered.map(s => `
+    <tr>
+      <td>${escapeHTML(s.student_id)}</td>
+      <td>
+        <strong>${escapeHTML(s.student_name)}</strong>
+        <div class="muted">${escapeHTML(s.email || "")}</div>
+      </td>
+      <td>${escapeHTML(s.department)}</td>
+      <td>${num(s.attendance).toFixed(1)}%</td>
+      <td>${escapeHTML(s.internal_marks)}</td>
+      <td>${escapeHTML(s.assignment)}%</td>
+      <td>${badge(s.risk_level)}</td>
+      <td>${num(s.risk_probability).toFixed(1)}%</td>
+      <td>
+        <button class="btn small"
+          onclick="historyFor(${Number(s.student_id)})">
+          History
+        </button>
+        <button class="btn small danger"
+          onclick="deleteStudent(${Number(s.student_id)})">
+          Delete
+        </button>
+      </td>
+    </tr>
+  `).join("") ||
+  '<tr><td colspan="9">No students found.</td></tr>';
+
+  $("recentBody").innerHTML = students.slice(0,6).map(s => `
+    <tr>
+      <td>${escapeHTML(s.student_id)}</td>
+      <td>${escapeHTML(s.student_name)}</td>
+      <td>${escapeHTML(s.department)}</td>
+      <td>${num(s.attendance).toFixed(1)}%</td>
+      <td>${badge(s.risk_level)}</td>
+    </tr>
+  `).join("") ||
+  '<tr><td colspan="5">No student records yet.</td></tr>';
+
+  $("predictionBody").innerHTML = students.map(s => `
+    <tr>
+      <td>${escapeHTML(s.student_id)}</td>
+      <td>${escapeHTML(s.student_name)}</td>
+      <td>${num(s.attendance).toFixed(1)}%</td>
+      <td>${escapeHTML(s.internal_marks)}</td>
+      <td>${escapeHTML(s.assignment)}%</td>
+      <td>${badge(s.risk_level)}</td>
+      <td>${num(s.risk_probability).toFixed(1)}%</td>
+      <td>
+        <button class="btn small"
+          onclick="historyFor(${Number(s.student_id)})">
+          View History
+        </button>
+      </td>
+    </tr>
+  `).join("") ||
+  '<tr><td colspan="8">No predictions available.</td></tr>';
+}
+
+/* ALERTS */
+
+function renderAlerts() {
+  const flagged = students
+    .filter(s => ["HIGH","MEDIUM"].includes(s.risk_level))
+    .sort((a,b) => {
+      const rank = {HIGH:0,MEDIUM:1};
+      return rank[a.risk_level] - rank[b.risk_level] ||
+             num(a.attendance) - num(b.attendance);
+    });
+
+  const alertHTML = s => `
+    <div class="alert">
+      <div>
+        <strong>${escapeHTML(s.student_name)}</strong>
+        <small>
+          ID: ${escapeHTML(s.student_id)} ·
+          ${escapeHTML(s.department)} ·
+          Attendance: ${num(s.attendance).toFixed(1)}%
+        </small>
+      </div>
+      ${badge(s.risk_level)}
+    </div>
+  `;
+
+  $("priorityAlerts").innerHTML =
+    flagged.slice(0,5).map(alertHTML).join("") ||
+    '<p class="muted">No current HIGH or MEDIUM risk students.</p>';
+
+  $("allAlerts").innerHTML =
+    flagged.map(alertHTML).join("") ||
+    '<p class="muted">No current risk alerts.</p>';
+}
+
+/* ANALYTICS */
+
+function renderAnalytics() {
+  const groups = {};
+
+  students.forEach(s => {
+    const department = s.department || "Unknown";
+    if (!groups[department]) groups[department] = [];
+    groups[department].push(num(s.attendance));
+  });
+
+  $("departmentBars").innerHTML =
+    Object.entries(groups).map(([name,values]) => {
+      const average =
+        values.reduce((a,b) => a + b,0) / values.length;
+
+      return `
+        <div class="risk-row">
+          <span>${escapeHTML(name)}</span>
+          <div class="track">
+            <div class="fill low"
+                 style="width:${Math.min(100,average)}%">
+            </div>
+          </div>
+          <b>${average.toFixed(1)}%</b>
+        </div>
+      `;
+    }).join("") ||
+    '<p class="muted">No department data.</p>';
+
+  $("analyticsRisk").innerHTML =
+    ["LOW","MEDIUM","HIGH"].map(level => {
+      const count = num(summary[level.toLowerCase() + "_risk"]);
+      const total = num(summary.total_students) || 1;
+      const percent = count / total * 100;
+
+      return `
+        <div class="risk-row">
+          ${level}
+          <div class="track">
+            <div class="fill ${level.toLowerCase()}"
+                 style="width:${percent}%"></div>
+          </div>
+          <b>${count}</b>
+        </div>
+      `;
+    }).join("");
+
+  const average = key => students.length
+    ? (
+        students.reduce((sum,s) => sum + num(s[key]),0) /
+        students.length
+      ).toFixed(1)
+    : "—";
+
+  $("insights").innerHTML = `
+    <div class="notice">
+      <strong>Average Internal Marks</strong>
+      <h2>${average("internal_marks")}</h2>
+    </div>
+    <div class="notice">
+      <strong>Average Assignment Score</strong>
+      <h2>${average("assignment")}%</h2>
+    </div>
+  `;
+}
+
+/* ADD STUDENT */
+
+function openAdd() {
+  $("formError").textContent = "";
+  $("addModal").classList.add("show");
+}
+
+function closeAdd() {
+  $("addModal").classList.remove("show");
+}
+
+function closeHistory() {
+  $("historyModal").classList.remove("show");
+}
+
+$("studentForm").addEventListener("submit",async event => {
+  event.preventDefault();
+
+  const form = event.target;
+  const values = Object.fromEntries(new FormData(form));
+
+  if (num(values.classes_attended) > num(values.total_classes)) {
+    $("formError").textContent =
+      "Classes attended cannot exceed total classes.";
+    return;
+  }
+
+  try {
+    const result = await api("/students",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(values)
+    });
+
+    alert(
+      "Student added successfully!\n" +
+      "Risk: " + result.risk_level + "\n" +
+      "Model confidence: " + result.risk_probability + "%"
+    );
+
+    form.reset();
+    closeAdd();
+    await load();
+
+  } catch(error) {
+    $("formError").textContent = error.message;
+  }
+});
+
+/* DELETE STUDENT */
+
+async function deleteStudent(id) {
+  if (!confirm(
+    "Permanently delete student " + id + " and related records?"
+  )) return;
+
+  try {
+    await api("/student/" + id,{method:"DELETE"});
+    await load();
+  } catch(error) {
+    if (adminToken) alert("Delete failed: " + error.message);
+  }
+}
+
+/* CSV IMPORT */
+
+async function importCSV(file) {
+  if (!file) return;
+
+  try {
+    const formData = new FormData();
+    formData.append("file",file);
+
+    const result = await api("/students/import",{
+      method:"POST",
+      body:formData
+    });
+
+    alert(
+      "CSV import completed.\n" +
+      "Created: " + (result.created?.length || 0) + "\n" +
+      "Skipped: " + (result.skipped_existing?.length || 0) + "\n" +
+      "Errors: " + (result.errors?.length || 0)
+    );
+
+    await load();
+
+  } catch(error) {
+    if (adminToken) alert("CSV import failed: " + error.message);
+  } finally {
+    $("csv").value = "";
+  }
+}
+
+function template() {
+  const content =
+    "student_id,student_name,email,department,semester," +
+    "total_classes,classes_attended,internal_marks," +
+    "assignment_percent,previous_performance\n" +
+    "109,Example Student,example@example.com,CSE,3," +
+    "100,75,70,80,72\n";
+
+  const url = URL.createObjectURL(
+    new Blob([content],{type:"text/csv"})
+  );
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "student_import_template.csv";
+  link.click();
+
+  setTimeout(() => URL.revokeObjectURL(url),1000);
+}
+
+/* PREDICTION HISTORY */
+
+async function historyFor(id) {
+  $("historyTitle").textContent =
+    "Prediction History — Student " + id;
+
+  $("historyContent").textContent = "Loading...";
+  $("historyModal").classList.add("show");
+
+  try {
+    const records = await api("/risk-history/" + id);
+
+    $("historyContent").innerHTML = records.length
+      ? records.map(h => `
+          <div class="alert">
+            <div>
+              <strong>${escapeHTML(
+                h.recorded_at || h.prediction_date || ""
+              )}</strong>
+              <small>${escapeHTML(h.change_type || "")}</small>
+            </div>
+            <div>
+              ${badge(h.risk_level)}
+              ${num(h.risk_probability).toFixed(1)}%
+            </div>
+          </div>
+        `).join("")
+      : '<p class="muted">No history records yet.</p>';
+
+  } catch(error) {
+    if (adminToken) {
+      $("historyContent").textContent =
+        "Unable to load history: " + error.message;
+    }
+  }
+}
+
+/* RECALCULATE */
+
+async function recalculate() {
+  if (!confirm(
+    "Recalculate and save new AI predictions for all students?"
+  )) return;
+
+  const button = $("recalcBtn");
+  button.disabled = true;
+  $("recalcStatus").textContent = "Recalculating predictions...";
+
+  try {
+    const result = await api("/predictions/recalculate",{
+      method:"POST"
+    });
+
+    $("recalcStatus").textContent =
+      "Updated " + result.students_recalculated +
+      " students. LOW: " + (result.risk_distribution?.LOW ?? 0) +
+      ", MEDIUM: " + (result.risk_distribution?.MEDIUM ?? 0) +
+      ", HIGH: " + (result.risk_distribution?.HIGH ?? 0);
+
+    await load();
+
+  } catch(error) {
+    if (adminToken) {
+      $("recalcStatus").textContent =
+        "Recalculation failed: " + error.message;
+    }
+  } finally {
+    button.disabled = false;
+  }
+}
+
+/* ATTENDANCE SIMULATOR */
+
+function updateSimulatorOptions() {
+  const select = $("simStudent");
+  const previousValue = select.value;
+
+  select.innerHTML =
+    '<option value="">Enter values manually</option>' +
+    students.map(s => `
+      <option value="${Number(s.student_id)}">
+        ${escapeHTML(s.student_name)}
+        (#${Number(s.student_id)})
+      </option>
+    `).join("");
+
+  select.value = previousValue;
+}
+
+function fillSimulator() {
+  const id = $("simStudent").value;
+  const student = students.find(
+    s => String(s.student_id) === id
+  );
+
+  if (!student) return;
+
+  $("simTotal").value = student.total_classes;
+  $("simAttended").value = student.classes_attended;
+}
+
+function simulate() {
+  const total = Number($("simTotal").value);
+  const attended = Number($("simAttended").value);
+  const target = Number($("simTarget").value);
+
+  if (
+    !Number.isInteger(total) ||
+    !Number.isInteger(attended) ||
+    total <= 0 ||
+    attended < 0 ||
+    attended > total ||
+    !Number.isFinite(target) ||
+    target <= 0 ||
+    target > 100
+  ) {
+    $("simResult").textContent =
+      "Enter valid class counts and a target from 1 to 100%.";
+    return;
+  }
+
+  const current = attended / total * 100;
+
+  if (current >= target) {
+    $("simResult").textContent =
+      "Current attendance: " + current.toFixed(2) +
+      "%. Target already achieved.";
+    return;
+  }
+
+  if (target === 100) {
+    $("simResult").textContent =
+      "100% attendance cannot be reached by attending future " +
+      "classes if any classes have already been missed.";
+    return;
+  }
+
+  const required = Math.max(
+    0,
+    Math.ceil(
+      (target * total - 100 * attended) /
+      (100 - target) - 1e-10
+    )
+  );
+
+  const projected =
+    (attended + required) / (total + required) * 100;
+
+  $("simResult").textContent =
+    "Current attendance: " + current.toFixed(2) + "%.\n" +
+    "Attend the next " + required +
+    " consecutive classes to reach at least " +
+    target + "% attendance.\n" +
+    "Projected attendance: " + projected.toFixed(2) + "%.";
+}
+
+/* MODALS */
+
+document.querySelectorAll(".modal").forEach(modal => {
+  modal.addEventListener("click",event => {
+    if (event.target === modal) {
+      modal.classList.remove("show");
+    }
+  });
+});
+
+document.addEventListener("keydown",event => {
+  if (event.key === "Escape") {
+    document.querySelectorAll(".modal").forEach(modal => {
+      modal.classList.remove("show");
+    });
+  }
+});
+
+/* START ON LOGIN SCREEN */
+
+showLogin();
+
+</script>
+</body>
+</html>

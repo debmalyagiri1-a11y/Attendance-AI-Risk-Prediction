@@ -1,0 +1,6 @@
+student_id,student_name,email,department,semester,total_classes,classes_attended,internal_marks,assignment_percent,previous_performance
+104,Amit Kumar,amit@example.com,CSE,3,100,74,62,70,68
+105,Neha Singh,neha@example.com,CSE,3,100,91,88,92,85
+106,Rohan Das,rohan@example.com,CSE,3,100,61,55,58,52
+107,Ananya Roy,ananya@example.com,CSE,3,100,83,76,82,79
+108,Sahil Gupta,sahil@example.com,CSE,3,100,48,42,50,45
