@@ -35,10 +35,7 @@ body {
 button,input,select { font:inherit; }
 button { cursor:pointer; }
 button:disabled { opacity:.55;cursor:wait; }
-
 [hidden] { display:none!important; }
-
-/* LOGIN */
 
 .auth-screen {
   position:fixed;
@@ -62,18 +59,20 @@ button:disabled { opacity:.55;cursor:wait; }
   box-shadow:0 30px 90px #0008;
 }
 
+.auth-logo,.logo {
+  display:grid;
+  place-items:center;
+  border-radius:15px;
+  background:linear-gradient(135deg,#20f5bc,#078a68);
+  color:#02251b;
+  font-weight:900;
+}
+
 .auth-logo {
   width:65px;
   height:65px;
-  display:grid;
-  place-items:center;
-  margin:0 auto 22px;
-  border-radius:17px;
-  background:linear-gradient(135deg,#20f5bc,#078a68);
-  color:#02251b;
   font-size:32px;
-  font-weight:900;
-  box-shadow:0 0 35px #12e5a344;
+  margin:0 auto 22px;
 }
 
 .auth-card h1 {
@@ -96,22 +95,24 @@ button:disabled { opacity:.55;cursor:wait; }
   margin-bottom:19px;
 }
 
-.auth-field label {
+.auth-field label,.field label {
   font-size:12px;
   color:#b6dfcd;
 }
 
-.auth-field input {
+.auth-field input,.input {
   width:100%;
-  padding:14px;
+  padding:13px;
   border:1px solid #28664d;
-  border-radius:11px;
+  border-radius:10px;
   outline:none;
   background:#061b15;
   color:white;
 }
 
-.auth-field input:focus { border-color:var(--accent); }
+.auth-field input:focus,.input:focus {
+  border-color:var(--accent);
+}
 
 .auth-submit {
   width:100%;
@@ -124,11 +125,14 @@ button:disabled { opacity:.55;cursor:wait; }
   font-weight:800;
 }
 
-.auth-error {
+.auth-error,.error {
   color:#ff9ca9;
-  text-align:center;
   font-size:12px;
-  min-height:22px;
+  min-height:20px;
+}
+
+.auth-error {
+  text-align:center;
   margin-top:16px;
 }
 
@@ -138,8 +142,6 @@ button:disabled { opacity:.55;cursor:wait; }
   font-size:11px;
   margin-top:22px;
 }
-
-/* DASHBOARD LAYOUT */
 
 .layout { display:flex;min-height:100vh; }
 
@@ -152,6 +154,7 @@ button:disabled { opacity:.55;cursor:wait; }
   position:sticky;
   top:0;
   height:100vh;
+  overflow-y:auto;
 }
 
 .brand {
@@ -165,16 +168,12 @@ button:disabled { opacity:.55;cursor:wait; }
 .logo {
   width:44px;
   height:44px;
-  display:grid;
-  place-items:center;
-  border-radius:13px;
-  background:linear-gradient(135deg,#20f5bc,#078a68);
-  color:#02251b;
   font-size:24px;
-  font-weight:900;
+  flex-shrink:0;
 }
 
 .brand strong { font-size:16px; }
+
 .brand small {
   display:block;
   color:var(--accent);
@@ -207,8 +206,15 @@ button:disabled { opacity:.55;cursor:wait; }
   border-color:#197257;
 }
 
-.nav button.active { box-shadow:inset 3px 0 var(--accent); }
-.nav .icon { display:inline-block;width:28px;font-size:18px; }
+.nav button.active {
+  box-shadow:inset 3px 0 var(--accent);
+}
+
+.nav .icon {
+  display:inline-block;
+  width:28px;
+  font-size:17px;
+}
 
 .connection {
   margin-top:30px;
@@ -216,6 +222,7 @@ button:disabled { opacity:.55;cursor:wait; }
   border-top:1px solid var(--border);
   color:var(--muted);
   font-size:12px;
+  overflow-wrap:anywhere;
 }
 
 .dot {
@@ -228,7 +235,11 @@ button:disabled { opacity:.55;cursor:wait; }
   margin-right:8px;
 }
 
-.main { flex:1;min-width:0;padding:28px 35px 55px; }
+.main {
+  flex:1;
+  min-width:0;
+  padding:28px 35px 55px;
+}
 
 .topbar {
   display:flex;
@@ -245,7 +256,10 @@ button:disabled { opacity:.55;cursor:wait; }
   letter-spacing:2px;
 }
 
-.topbar h1 { margin:7px 0 0;font-size:27px; }
+.topbar h1 {
+  margin:7px 0 0;
+  font-size:27px;
+}
 
 .admin-actions {
   display:flex;
@@ -275,7 +289,12 @@ button:disabled { opacity:.55;cursor:wait; }
 }
 
 .hero h2 { font-size:27px;margin:10px 0; }
-.hero p { color:#b0d9c8;line-height:1.7;max-width:680px; }
+
+.hero p {
+  color:#b0d9c8;
+  line-height:1.7;
+  max-width:680px;
+}
 
 .cards {
   display:grid;
@@ -293,13 +312,18 @@ button:disabled { opacity:.55;cursor:wait; }
 }
 
 .card { min-height:125px; }
+
 .card small {
   color:var(--muted);
   text-transform:uppercase;
   font-size:11px;
 }
 
-.number { font-size:33px;font-weight:800;margin-top:15px; }
+.number {
+  font-size:33px;
+  font-weight:800;
+  margin-top:15px;
+}
 
 .red { color:var(--red); }
 .yellow { color:var(--yellow); }
@@ -314,11 +338,16 @@ button:disabled { opacity:.55;cursor:wait; }
 }
 
 .panel h3 { margin-top:0; }
-.hint { color:var(--muted);font-size:12px;line-height:1.7; }
+
+.hint {
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+}
 
 .risk-row {
   display:grid;
-  grid-template-columns:75px 1fr 60px;
+  grid-template-columns:85px 1fr 65px;
   align-items:center;
   gap:12px;
   margin:20px 0;
@@ -332,7 +361,13 @@ button:disabled { opacity:.55;cursor:wait; }
   overflow:hidden;
 }
 
-.fill { width:0;height:100%;border-radius:20px;transition:width .5s; }
+.fill {
+  width:0;
+  height:100%;
+  border-radius:20px;
+  transition:width .5s;
+}
+
 .fill.low { background:#21dfa9; }
 .fill.medium { background:#ffca70; }
 .fill.high { background:#ff687c; }
@@ -346,7 +381,11 @@ button:disabled { opacity:.55;cursor:wait; }
   margin-bottom:17px;
 }
 
-.actions { display:flex;flex-wrap:wrap;gap:9px; }
+.actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+}
 
 .btn,.file {
   display:inline-flex;
@@ -376,23 +415,20 @@ button:disabled { opacity:.55;cursor:wait; }
   background:#331b22;
 }
 
-.btn.small { padding:7px 10px;font-size:11px; }
-
-.input {
-  background:#061b15;
-  color:white;
-  border:1px solid #28664d;
-  border-radius:10px;
-  padding:11px 13px;
-  outline:none;
-  max-width:100%;
+.btn.small {
+  padding:7px 10px;
+  font-size:11px;
+  margin:2px;
 }
 
-.input:focus { border-color:var(--accent); }
 .search { width:270px; }
 .tablebox { overflow-x:auto; }
 
-table { width:100%;border-collapse:collapse;min-width:850px; }
+table {
+  width:100%;
+  border-collapse:collapse;
+  min-width:850px;
+}
 
 th {
   text-align:left;
@@ -420,9 +456,20 @@ tbody tr:hover { background:#12332766; }
   font-weight:800;
 }
 
-.badge.LOW { background:#0e4a37;color:#79f8c5; }
-.badge.MEDIUM { background:#4b391c;color:#ffd58d; }
-.badge.HIGH { background:#54222d;color:#ff9ba8; }
+.badge.LOW {
+  background:#0e4a37;
+  color:#79f8c5;
+}
+
+.badge.MEDIUM {
+  background:#4b391c;
+  color:#ffd58d;
+}
+
+.badge.HIGH {
+  background:#54222d;
+  color:#ff9ba8;
+}
 
 .section { display:none; }
 .section.active { display:block; }
@@ -451,7 +498,6 @@ tbody tr:hover { background:#12332766; }
 }
 
 .field { display:grid;gap:7px; }
-.field label { color:#a6cdbb;font-size:11px; }
 .field input { width:100%; }
 .wide { grid-column:1/-1; }
 
@@ -486,8 +532,6 @@ tbody tr:hover { background:#12332766; }
   margin-bottom:18px;
 }
 
-.error { color:#ff9da8;margin:10px 0; }
-
 .notice,.sim-result {
   padding:17px;
   border:1px solid #286049;
@@ -497,7 +541,10 @@ tbody tr:hover { background:#12332766; }
   line-height:1.7;
 }
 
-.sim-result { margin-top:18px;white-space:pre-line; }
+.sim-result {
+  margin-top:18px;
+  white-space:pre-line;
+}
 
 .footer {
   margin-top:35px;
@@ -513,9 +560,8 @@ tbody tr:hover { background:#12332766; }
 
 @media(max-width:850px) {
   .sidebar { width:75px;padding:20px 8px; }
-  .brand strong,.brand small,.nav-title,.nav-text,.connection {
-    display:none;
-  }
+  .brand strong,.brand small,.nav-title,
+  .nav-text,.connection { display:none; }
   .nav button { text-align:center; }
   .nav .icon { width:auto; }
   .main { padding:20px; }
@@ -566,6 +612,7 @@ tbody tr:hover { background:#12332766; }
       <button class="auth-submit" id="loginButton" type="submit">
         Secure Login
       </button>
+
       <div class="auth-error" id="loginError" role="alert"></div>
     </form>
 
@@ -591,31 +638,37 @@ tbody tr:hover { background:#12332766; }
 
   <nav class="nav">
     <button class="active" data-page="dashboard">
-      <span class="icon">â–¦</span>
+      <span class="icon">&#9638;</span>
       <span class="nav-text">Dashboard</span>
     </button>
+
     <button data-page="students">
-      <span class="icon">â™™</span>
+      <span class="icon">&#9823;</span>
       <span class="nav-text">Students</span>
     </button>
+
     <button data-page="predictions">
-      <span class="icon">â—ˆ</span>
+      <span class="icon">&#9670;</span>
       <span class="nav-text">AI Predictions</span>
     </button>
+
     <button data-page="analytics">
-      <span class="icon">â—«</span>
+      <span class="icon">&#9636;</span>
       <span class="nav-text">Analytics</span>
     </button>
+
     <button data-page="simulator">
-      <span class="icon">âŒ</span>
+      <span class="icon">%</span>
       <span class="nav-text">Attendance Simulator</span>
     </button>
+
     <button data-page="alerts">
-      <span class="icon">â™§</span>
+      <span class="icon">&#9888;</span>
       <span class="nav-text">Risk Alerts</span>
     </button>
+
     <button data-page="about">
-      <span class="icon">âš™</span>
+      <span class="icon">&#9881;</span>
       <span class="nav-text">System Information</span>
     </button>
   </nav>
@@ -623,12 +676,11 @@ tbody tr:hover { background:#12332766; }
   <div class="connection">
     <span class="dot"></span>
     <span id="connection">Connecting...</span>
-    <p>Oracle DB Â· Flask Â· Random Forest</p>
+    <p>Neon PostgreSQL | Flask | Random Forest</p>
   </div>
 </aside>
 
 <main class="main">
-
   <div class="topbar">
     <div>
       <div class="eyebrow">ADMIN CONTROL CENTER</div>
@@ -636,8 +688,10 @@ tbody tr:hover { background:#12332766; }
     </div>
 
     <div class="admin-actions">
-      <span class="admin" id="adminLabel">â—‰ Administrator</span>
-      <button class="btn danger" id="logoutButton">Logout</button>
+      <span class="admin" id="adminLabel">Administrator</span>
+      <button class="btn danger" id="logoutButton">
+        Logout
+      </button>
     </div>
   </div>
 
@@ -648,7 +702,7 @@ tbody tr:hover { background:#12332766; }
       <h2>Welcome to Attendance AI</h2>
       <p>
         Monitor student attendance, identify academic risk,
-        and support data-driven decisions using Oracle DBMS
+        and support data-driven decisions using Neon PostgreSQL
         and machine learning.
       </p>
       <p id="lastUpdated" class="muted">Loading live data...</p>
@@ -657,53 +711,67 @@ tbody tr:hover { background:#12332766; }
     <div class="cards">
       <div class="card">
         <small>Total Students</small>
-        <div class="number" id="total">â€”</div>
+        <div class="number" id="total">--</div>
       </div>
+
       <div class="card">
         <small>High Risk</small>
-        <div class="number red" id="high">â€”</div>
+        <div class="number red" id="high">--</div>
       </div>
+
       <div class="card">
         <small>Medium Risk</small>
-        <div class="number yellow" id="med">â€”</div>
+        <div class="number yellow" id="med">--</div>
       </div>
+
       <div class="card">
         <small>Low Risk</small>
-        <div class="number green" id="low">â€”</div>
+        <div class="number green" id="low">--</div>
       </div>
+
       <div class="card">
         <small>Average Attendance</small>
-        <div class="number" id="avg">â€”</div>
+        <div class="number" id="avg">--</div>
       </div>
     </div>
 
     <div class="grid">
       <div class="panel">
         <h3>AI Risk Distribution</h3>
-        <p class="hint">Live prediction categories from Oracle.</p>
+        <p class="hint">
+          Live prediction categories from Neon PostgreSQL.
+        </p>
 
         <div class="risk-row">
           LOW
-          <div class="track"><div id="bl" class="fill low"></div></div>
+          <div class="track">
+            <div id="bl" class="fill low"></div>
+          </div>
           <b id="pl">0%</b>
         </div>
 
         <div class="risk-row">
           MEDIUM
-          <div class="track"><div id="bm" class="fill medium"></div></div>
+          <div class="track">
+            <div id="bm" class="fill medium"></div>
+          </div>
           <b id="pm">0%</b>
         </div>
 
         <div class="risk-row">
           HIGH
-          <div class="track"><div id="bh" class="fill high"></div></div>
+          <div class="track">
+            <div id="bh" class="fill high"></div>
+          </div>
           <b id="ph">0%</b>
         </div>
       </div>
 
       <div class="panel">
         <h3>Priority Risk Alerts</h3>
-        <p class="hint">Students currently requiring attention.</p>
+        <p class="hint">
+          Students currently requiring attention.
+        </p>
         <div id="priorityAlerts"></div>
       </div>
     </div>
@@ -715,12 +783,16 @@ tbody tr:hover { background:#12332766; }
           View All Students
         </button>
       </div>
+
       <div class="tablebox">
         <table>
           <thead>
             <tr>
-              <th>ID</th><th>Student</th><th>Department</th>
-              <th>Attendance</th><th>Risk</th>
+              <th>ID</th>
+              <th>Student</th>
+              <th>Department</th>
+              <th>Attendance</th>
+              <th>Risk</th>
             </tr>
           </thead>
           <tbody id="recentBody"></tbody>
@@ -734,6 +806,7 @@ tbody tr:hover { background:#12332766; }
     <div class="panel">
       <div class="section-title">
         <h3>Student Management</h3>
+
         <div class="actions">
           <button class="btn primary" onclick="openAdd()">
             + Add Student
@@ -750,7 +823,7 @@ tbody tr:hover { background:#12332766; }
           </button>
 
           <button class="btn" onclick="load()">
-            â†» Refresh
+            Refresh
           </button>
         </div>
       </div>
@@ -774,10 +847,15 @@ tbody tr:hover { background:#12332766; }
         <table>
           <thead>
             <tr>
-              <th>ID</th><th>Student</th><th>Department</th>
-              <th>Attendance</th><th>Internal</th>
-              <th>Assignment</th><th>Risk</th>
-              <th>Confidence</th><th>Actions</th>
+              <th>ID</th>
+              <th>Student</th>
+              <th>Department</th>
+              <th>Attendance</th>
+              <th>Internal</th>
+              <th>Assignment</th>
+              <th>Risk</th>
+              <th>Confidence</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody id="studentBody"></tbody>
@@ -798,8 +876,9 @@ tbody tr:hover { background:#12332766; }
       </div>
 
       <p class="hint">
-        Random Forest classification using attendance, internal marks,
-        assignment performance, and previous-performance input.
+        Random Forest classification using attendance,
+        internal marks, assignment performance,
+        and previous-performance input.
       </p>
 
       <p id="recalcStatus" class="muted"></p>
@@ -808,9 +887,14 @@ tbody tr:hover { background:#12332766; }
         <table>
           <thead>
             <tr>
-              <th>ID</th><th>Student</th><th>Attendance</th>
-              <th>Internal</th><th>Assignment</th>
-              <th>Prediction</th><th>Confidence</th><th>History</th>
+              <th>ID</th>
+              <th>Student</th>
+              <th>Attendance</th>
+              <th>Internal</th>
+              <th>Assignment</th>
+              <th>Prediction</th>
+              <th>Confidence</th>
+              <th>History</th>
             </tr>
           </thead>
           <tbody id="predictionBody"></tbody>
@@ -824,7 +908,9 @@ tbody tr:hover { background:#12332766; }
     <div class="grid">
       <div class="panel">
         <h3>Department-wise Average Attendance</h3>
-        <p class="hint">Calculated from current student records.</p>
+        <p class="hint">
+          Calculated from current student records.
+        </p>
         <div id="departmentBars"></div>
       </div>
 
@@ -845,8 +931,9 @@ tbody tr:hover { background:#12332766; }
     <div class="panel">
       <h3>Attendance Improvement Simulator</h3>
       <p class="hint">
-        Calculate how many consecutive future classes a student must
-        attend to reach a target attendance percentage.
+        Calculate how many consecutive future classes
+        a student must attend to reach a target
+        attendance percentage.
       </p>
 
       <div class="formgrid">
@@ -895,8 +982,9 @@ tbody tr:hover { background:#12332766; }
     <div class="panel">
       <h3>Smart Risk Monitoring</h3>
       <p class="hint">
-        Students with HIGH or MEDIUM predictions are listed below.
-        These are current risk indicators, not automatic notifications.
+        Students with HIGH or MEDIUM predictions
+        are listed below. These are current risk
+        indicators, not automatic notifications.
       </p>
       <div id="allAlerts"></div>
     </div>
@@ -908,21 +996,32 @@ tbody tr:hover { background:#12332766; }
       <div class="panel">
         <h3>Technology Stack</h3>
         <p>Backend: Python Flask</p>
-        <p>Database: Oracle Free</p>
+        <p>Database: Neon PostgreSQL</p>
         <p>Machine Learning: Random Forest</p>
         <p>ML Library: Scikit-learn</p>
         <p>Frontend: HTML, CSS, JavaScript</p>
         <p>Containerization: Docker</p>
+        <p>Backend Hosting: Railway</p>
+        <p>Frontend Hosting: Cloudflare Pages</p>
       </div>
 
       <div class="panel">
         <h3>Prediction Categories</h3>
-        <p><span class="badge LOW">LOW</span> Lower predicted risk</p>
-        <p><span class="badge MEDIUM">MEDIUM</span> Moderate predicted risk</p>
-        <p><span class="badge HIGH">HIGH</span> Higher predicted risk</p>
+        <p>
+          <span class="badge LOW">LOW</span>
+          Lower predicted risk
+        </p>
+        <p>
+          <span class="badge MEDIUM">MEDIUM</span>
+          Moderate predicted risk
+        </p>
+        <p>
+          <span class="badge HIGH">HIGH</span>
+          Higher predicted risk
+        </p>
         <p class="hint">
-          Predictions come from a demonstration ML model and
-          are not validated academic outcomes.
+          Predictions come from a demonstration ML model
+          and are not validated academic outcomes.
         </p>
       </div>
     </div>
@@ -930,15 +1029,14 @@ tbody tr:hover { background:#12332766; }
     <div class="notice">
       <strong>Admin Access</strong>
       <p>
-        This dashboard requires Admin authentication.
+        This dashboard requires administrator authentication.
         Protected API requests use an expiring Bearer token.
-        Faculty and Admin use the same Admin account.
       </p>
     </div>
   </section>
 
   <div class="footer">
-    ATTENDANCE AI Â· Student Risk Intelligence System
+    ATTENDANCE AI | Student Risk Intelligence System
   </div>
 </main>
 </div>
@@ -948,7 +1046,9 @@ tbody tr:hover { background:#12332766; }
   <div class="modalbox">
     <div class="modalhead">
       <h2>Add Student</h2>
-      <button class="btn" onclick="closeAdd()">âœ•</button>
+      <button class="btn" onclick="closeAdd()">
+        Close
+      </button>
     </div>
 
     <p id="formError" class="error"></p>
@@ -1014,21 +1114,25 @@ tbody tr:hover { background:#12332766; }
 
       <div class="wide">
         <button type="button" class="btn"
-                onclick="closeAdd()">Cancel</button>
+                onclick="closeAdd()">
+          Cancel
+        </button>
         <button type="submit" class="btn primary">
-          Add Student & Predict
+          Add Student &amp; Predict
         </button>
       </div>
     </form>
   </div>
 </div>
 
-<!-- HISTORY MODAL -->
+<!-- PREDICTION HISTORY MODAL -->
 <div class="modal" id="historyModal">
   <div class="modalbox">
     <div class="modalhead">
       <h2 id="historyTitle">Prediction History</h2>
-      <button class="btn" onclick="closeHistory()">âœ•</button>
+      <button class="btn" onclick="closeHistory()">
+        Close
+      </button>
     </div>
     <div id="historyContent"></div>
   </div>
@@ -1037,7 +1141,9 @@ tbody tr:hover { background:#12332766; }
 <script>
 "use strict";
 
-const API = "https://attendance-ai-risk-prediction-production.up.railway.app";
+const API =
+  "https://attendance-ai-risk-prediction-production.up.railway.app";
+
 const $ = id => document.getElementById(id);
 
 let adminToken = null;
@@ -1082,14 +1188,22 @@ async function login(username,password) {
     body:JSON.stringify({username,password})
   });
 
-  const result = await response.json();
+  let result;
+
+  try {
+    result = await response.json();
+  } catch {
+    throw new Error("Invalid login response from backend.");
+  }
 
   if (!response.ok) {
     throw new Error(result.error || "Login failed.");
   }
 
   if (!result.token) {
-    throw new Error("Backend did not return an authentication token.");
+    throw new Error(
+      "Backend did not return an authentication token."
+    );
   }
 
   const token = result.token;
@@ -1109,7 +1223,10 @@ async function login(username,password) {
   }
 
   adminToken = token;
-  $("adminLabel").textContent = "â—‰ " + profile.username;
+
+  $("adminLabel").textContent =
+    "Admin: " + profile.username;
+
   $("authScreen").hidden = true;
   $("appLayout").hidden = false;
 
@@ -1140,7 +1257,7 @@ $("loginForm").addEventListener("submit",async event => {
 
 $("logoutButton").addEventListener("click",logout);
 
-/* API */
+/* AUTHENTICATED API */
 
 async function api(path,options = {}) {
   if (!adminToken) {
@@ -1149,6 +1266,7 @@ async function api(path,options = {}) {
 
   const token = adminToken;
   const headers = new Headers(options.headers || {});
+
   headers.set("Authorization","Bearer " + token);
 
   let response;
@@ -1158,8 +1276,11 @@ async function api(path,options = {}) {
       ...options,
       headers
     });
-  } catch(error) {
-    throw new Error("Cannot connect to Flask backend.");
+  } catch {
+    throw new Error(
+      path + ": Network request failed. " +
+      "Check Railway and CORS configuration."
+    );
   }
 
   let result;
@@ -1167,18 +1288,30 @@ async function api(path,options = {}) {
   try {
     result = await response.json();
   } catch {
-    throw new Error("Invalid response from backend.");
+    throw new Error(
+      path + ": Invalid response (HTTP " +
+      response.status + ")."
+    );
   }
 
   if (response.status === 401 || response.status === 403) {
     if (adminToken === token) {
-      showLogin(result.error || "Session expired. Log in again.");
+      showLogin(
+        result.error || "Session expired. Log in again."
+      );
     }
-    throw new Error("Authentication required.");
+
+    throw new Error(
+      path + ": Authentication required."
+    );
   }
 
   if (!response.ok) {
-    throw new Error(result.error || `HTTP ${response.status}`);
+    throw new Error(
+      path + ": " +
+      (result.error || result.message ||
+       "HTTP " + response.status)
+    );
   }
 
   return result;
@@ -1207,6 +1340,7 @@ function badge(level) {
   const risk = String(level || "UNKNOWN").toUpperCase();
   const allowed = ["LOW","MEDIUM","HIGH"];
   const css = allowed.includes(risk) ? risk : "";
+
   return `<span class="badge ${css}">${escapeHTML(risk)}</span>`;
 }
 
@@ -1218,12 +1352,17 @@ function showPage(page) {
   });
 
   document.querySelectorAll(".nav button").forEach(el => {
-    el.classList.toggle("active",el.dataset.page === page);
+    el.classList.toggle(
+      "active",
+      el.dataset.page === page
+    );
   });
 
   $("pageTitle").textContent = pages[page];
 
-  if (page === "simulator") updateSimulatorOptions();
+  if (page === "simulator") {
+    updateSimulatorOptions();
+  }
 
   window.scrollTo({top:0,behavior:"smooth"});
 }
@@ -1241,6 +1380,8 @@ async function load() {
 
   const token = adminToken;
 
+  $("connection").textContent = "Loading data...";
+
   try {
     const [studentData,summaryData] = await Promise.all([
       api("/predictions"),
@@ -1250,21 +1391,37 @@ async function load() {
     if (adminToken !== token) return;
 
     if (!Array.isArray(studentData)) {
-      throw new Error("Invalid student data received.");
+      throw new Error(
+        "/predictions: Invalid student data received."
+      );
+    }
+
+    if (
+      !summaryData ||
+      typeof summaryData !== "object" ||
+      Array.isArray(summaryData)
+    ) {
+      throw new Error(
+        "/predictions/summary: Invalid summary response."
+      );
     }
 
     students = studentData;
     summary = summaryData;
 
     $("connection").textContent = "Backend connected";
+
     $("lastUpdated").textContent =
-      "Live data updated at " + new Date().toLocaleTimeString();
+      "Live data updated at " +
+      new Date().toLocaleTimeString();
 
     $("total").textContent =
       summary.total_students ?? students.length;
+
     $("high").textContent = summary.high_risk ?? 0;
     $("med").textContent = summary.medium_risk ?? 0;
     $("low").textContent = summary.low_risk ?? 0;
+
     $("avg").textContent =
       num(summary.average_attendance).toFixed(1) + "%";
 
@@ -1275,7 +1432,9 @@ async function load() {
       ["m",summary.medium_risk],
       ["h",summary.high_risk]
     ].forEach(([key,count]) => {
-      const percent = (num(count) / total * 100).toFixed(1);
+      const percent =
+        (num(count) / total * 100).toFixed(1);
+
       $("b" + key).style.width = percent + "%";
       $("p" + key).textContent = percent + "%";
     });
@@ -1288,11 +1447,13 @@ async function load() {
   } catch(error) {
     if (!adminToken || adminToken !== token) return;
 
-    $("connection").textContent = "Backend error: " + error.message;
-    $("lastUpdated").textContent =
-      "Connection error: " + error.message;
+    $("connection").textContent =
+      "API error: " + error.message;
 
-    console.error(error);
+    $("lastUpdated").textContent =
+      "Unable to load dashboard: " + error.message;
+
+    console.error("Attendance AI dashboard error:",error);
   }
 }
 
@@ -1304,10 +1465,13 @@ function render() {
 
   const filtered = students.filter(s => {
     const matchesRisk =
-      filter === "ALL" || s.risk_level === filter;
+      filter === "ALL" ||
+      String(s.risk_level).toUpperCase() === filter;
 
     const matchesSearch = [
-      s.student_id,s.student_name,s.department
+      s.student_id,
+      s.student_name,
+      s.department
     ].some(v =>
       String(v ?? "").toLowerCase().includes(query)
     );
@@ -1376,15 +1540,22 @@ function render() {
   '<tr><td colspan="8">No predictions available.</td></tr>';
 }
 
-/* ALERTS */
+/* RISK ALERTS */
 
 function renderAlerts() {
   const flagged = students
-    .filter(s => ["HIGH","MEDIUM"].includes(s.risk_level))
+    .filter(s =>
+      ["HIGH","MEDIUM"].includes(
+        String(s.risk_level).toUpperCase()
+      )
+    )
     .sort((a,b) => {
       const rank = {HIGH:0,MEDIUM:1};
-      return rank[a.risk_level] - rank[b.risk_level] ||
-             num(a.attendance) - num(b.attendance);
+
+      return (
+        rank[a.risk_level] - rank[b.risk_level] ||
+        num(a.attendance) - num(b.attendance)
+      );
     });
 
   const alertHTML = s => `
@@ -1392,8 +1563,8 @@ function renderAlerts() {
       <div>
         <strong>${escapeHTML(s.student_name)}</strong>
         <small>
-          ID: ${escapeHTML(s.student_id)} Â·
-          ${escapeHTML(s.department)} Â·
+          ID: ${escapeHTML(s.student_id)} |
+          ${escapeHTML(s.department)} |
           Attendance: ${num(s.attendance).toFixed(1)}%
         </small>
       </div>
@@ -1417,21 +1588,26 @@ function renderAnalytics() {
 
   students.forEach(s => {
     const department = s.department || "Unknown";
-    if (!groups[department]) groups[department] = [];
+
+    if (!groups[department]) {
+      groups[department] = [];
+    }
+
     groups[department].push(num(s.attendance));
   });
 
   $("departmentBars").innerHTML =
     Object.entries(groups).map(([name,values]) => {
       const average =
-        values.reduce((a,b) => a + b,0) / values.length;
+        values.reduce((a,b) => a + b,0) /
+        values.length;
 
       return `
         <div class="risk-row">
           <span>${escapeHTML(name)}</span>
           <div class="track">
             <div class="fill low"
-                 style="width:${Math.min(100,average)}%">
+              style="width:${Math.min(100,average)}%">
             </div>
           </div>
           <b>${average.toFixed(1)}%</b>
@@ -1442,7 +1618,9 @@ function renderAnalytics() {
 
   $("analyticsRisk").innerHTML =
     ["LOW","MEDIUM","HIGH"].map(level => {
-      const count = num(summary[level.toLowerCase() + "_risk"]);
+      const count =
+        num(summary[level.toLowerCase() + "_risk"]);
+
       const total = num(summary.total_students) || 1;
       const percent = count / total * 100;
 
@@ -1451,7 +1629,8 @@ function renderAnalytics() {
           ${level}
           <div class="track">
             <div class="fill ${level.toLowerCase()}"
-                 style="width:${percent}%"></div>
+              style="width:${percent}%">
+            </div>
           </div>
           <b>${count}</b>
         </div>
@@ -1460,16 +1639,18 @@ function renderAnalytics() {
 
   const average = key => students.length
     ? (
-        students.reduce((sum,s) => sum + num(s[key]),0) /
-        students.length
+        students.reduce(
+          (sum,s) => sum + num(s[key]),0
+        ) / students.length
       ).toFixed(1)
-    : "â€”";
+    : "--";
 
   $("insights").innerHTML = `
     <div class="notice">
       <strong>Average Internal Marks</strong>
       <h2>${average("internal_marks")}</h2>
     </div>
+
     <div class="notice">
       <strong>Average Assignment Score</strong>
       <h2>${average("assignment")}%</h2>
@@ -1498,7 +1679,10 @@ $("studentForm").addEventListener("submit",async event => {
   const form = event.target;
   const values = Object.fromEntries(new FormData(form));
 
-  if (num(values.classes_attended) > num(values.total_classes)) {
+  if (
+    num(values.classes_attended) >
+    num(values.total_classes)
+  ) {
     $("formError").textContent =
       "Classes attended cannot exceed total classes.";
     return;
@@ -1514,7 +1698,8 @@ $("studentForm").addEventListener("submit",async event => {
     alert(
       "Student added successfully!\n" +
       "Risk: " + result.risk_level + "\n" +
-      "Model confidence: " + result.risk_probability + "%"
+      "Model confidence: " +
+      result.risk_probability + "%"
     );
 
     form.reset();
@@ -1530,14 +1715,23 @@ $("studentForm").addEventListener("submit",async event => {
 
 async function deleteStudent(id) {
   if (!confirm(
-    "Permanently delete student " + id + " and related records?"
-  )) return;
+    "Permanently delete student " + id +
+    " and related records?"
+  )) {
+    return;
+  }
 
   try {
-    await api("/student/" + id,{method:"DELETE"});
+    await api("/student/" + id,{
+      method:"DELETE"
+    });
+
     await load();
+
   } catch(error) {
-    if (adminToken) alert("Delete failed: " + error.message);
+    if (adminToken) {
+      alert("Delete failed: " + error.message);
+    }
   }
 }
 
@@ -1557,15 +1751,20 @@ async function importCSV(file) {
 
     alert(
       "CSV import completed.\n" +
-      "Created: " + (result.created?.length || 0) + "\n" +
-      "Skipped: " + (result.skipped_existing?.length || 0) + "\n" +
-      "Errors: " + (result.errors?.length || 0)
+      "Created: " +
+      (result.created?.length || 0) + "\n" +
+      "Skipped: " +
+      (result.skipped_existing?.length || 0) + "\n" +
+      "Errors: " +
+      (result.errors?.length || 0)
     );
 
     await load();
 
   } catch(error) {
-    if (adminToken) alert("CSV import failed: " + error.message);
+    if (adminToken) {
+      alert("CSV import failed: " + error.message);
+    }
   } finally {
     $("csv").value = "";
   }
@@ -1584,6 +1783,7 @@ function template() {
   );
 
   const link = document.createElement("a");
+
   link.href = url;
   link.download = "student_import_template.csv";
   link.click();
@@ -1595,7 +1795,7 @@ function template() {
 
 async function historyFor(id) {
   $("historyTitle").textContent =
-    "Prediction History â€” Student " + id;
+    "Prediction History - Student " + id;
 
   $("historyContent").textContent = "Loading...";
   $("historyModal").classList.add("show");
@@ -1603,14 +1803,22 @@ async function historyFor(id) {
   try {
     const records = await api("/risk-history/" + id);
 
+    if (!Array.isArray(records)) {
+      throw new Error("Invalid history response.");
+    }
+
     $("historyContent").innerHTML = records.length
       ? records.map(h => `
           <div class="alert">
             <div>
               <strong>${escapeHTML(
-                h.recorded_at || h.prediction_date || ""
+                h.recorded_at ||
+                h.prediction_date ||
+                ""
               )}</strong>
-              <small>${escapeHTML(h.change_type || "")}</small>
+              <small>${escapeHTML(
+                h.change_type || ""
+              )}</small>
             </div>
             <div>
               ${badge(h.risk_level)}
@@ -1628,27 +1836,36 @@ async function historyFor(id) {
   }
 }
 
-/* RECALCULATE */
+/* RECALCULATE PREDICTIONS */
 
 async function recalculate() {
   if (!confirm(
     "Recalculate and save new AI predictions for all students?"
-  )) return;
+  )) {
+    return;
+  }
 
   const button = $("recalcBtn");
+
   button.disabled = true;
-  $("recalcStatus").textContent = "Recalculating predictions...";
+
+  $("recalcStatus").textContent =
+    "Recalculating predictions...";
 
   try {
-    const result = await api("/predictions/recalculate",{
-      method:"POST"
-    });
+    const result = await api(
+      "/predictions/recalculate",
+      {method:"POST"}
+    );
 
     $("recalcStatus").textContent =
       "Updated " + result.students_recalculated +
-      " students. LOW: " + (result.risk_distribution?.LOW ?? 0) +
-      ", MEDIUM: " + (result.risk_distribution?.MEDIUM ?? 0) +
-      ", HIGH: " + (result.risk_distribution?.HIGH ?? 0);
+      " students. LOW: " +
+      (result.risk_distribution?.LOW ?? 0) +
+      ", MEDIUM: " +
+      (result.risk_distribution?.MEDIUM ?? 0) +
+      ", HIGH: " +
+      (result.risk_distribution?.HIGH ?? 0);
 
     await load();
 
@@ -1682,6 +1899,7 @@ function updateSimulatorOptions() {
 
 function fillSimulator() {
   const id = $("simStudent").value;
+
   const student = students.find(
     s => String(s.student_id) === id
   );
@@ -1716,15 +1934,16 @@ function simulate() {
 
   if (current >= target) {
     $("simResult").textContent =
-      "Current attendance: " + current.toFixed(2) +
+      "Current attendance: " +
+      current.toFixed(2) +
       "%. Target already achieved.";
     return;
   }
 
   if (target === 100) {
     $("simResult").textContent =
-      "100% attendance cannot be reached by attending future " +
-      "classes if any classes have already been missed.";
+      "100% attendance cannot be reached by attending " +
+      "future classes if any classes have already been missed.";
     return;
   }
 
@@ -1737,14 +1956,17 @@ function simulate() {
   );
 
   const projected =
-    (attended + required) / (total + required) * 100;
+    (attended + required) /
+    (total + required) * 100;
 
   $("simResult").textContent =
-    "Current attendance: " + current.toFixed(2) + "%.\n" +
+    "Current attendance: " +
+    current.toFixed(2) + "%.\n" +
     "Attend the next " + required +
     " consecutive classes to reach at least " +
     target + "% attendance.\n" +
-    "Projected attendance: " + projected.toFixed(2) + "%.";
+    "Projected attendance: " +
+    projected.toFixed(2) + "%.";
 }
 
 /* MODALS */
@@ -1765,11 +1987,10 @@ document.addEventListener("keydown",event => {
   }
 });
 
-/* START ON LOGIN SCREEN */
+/* INITIAL STATE */
 
 showLogin();
 
 </script>
 </body>
 </html>
-
